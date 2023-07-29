@@ -1,10 +1,19 @@
 import { Button, Pagination } from '@mui/material';
 import styled from '@emotion/styled';
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+
+export const StyledCollectionIcon = styled(CollectionsBookmarkIcon)`
+  color: white;
+`;
 
 export const StyledMain = styled.main`
   display: grid;
   justify-content: center;
   margin-bottom: 80px;
+`;
+
+export const StyledTitleContainer = styled.div`
+  flex-grow: 1;
 `;
 
 export const StyledHeader = styled.header`
@@ -14,7 +23,6 @@ export const StyledHeader = styled.header`
 `;
 
 export const StyledManageBtn = styled(Button)`
-  font-weight: bold;
   text-transform: capitalize;
 `;
 

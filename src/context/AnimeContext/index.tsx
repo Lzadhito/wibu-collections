@@ -12,7 +12,7 @@ import { PropsWithChildren, createContext } from 'react';
 interface AnimeContextValues {
   collections: Record<string, AnimeListItem[]>;
   getAnime: (animeId: number) => AnimeCollectionRef | undefined;
-  createCollection: (collectionName: string, values: AnimeListItem[]) => void;
+  createCollection: (collectionName: string) => void;
   removeCollection: (collectionName: string) => void;
   editCollectionName: (collectionName: string, newCollectionName: string) => void;
   addToCollection: (animes: AnimeListItem[] | AnimeListItem, collectionName: string) => void;
@@ -21,7 +21,7 @@ interface AnimeContextValues {
 export const AnimeContext = createContext<AnimeContextValues>({
   collections: {},
   getAnime: (animeId: number) => undefined,
-  createCollection: (collectionName: string, values: AnimeListItem[] = []) => {},
+  createCollection: (collectionName: string) => {},
   removeCollection: (collectionName: string) => {},
   editCollectionName: (collectionName: string, newCollectionName: string) => {},
   addToCollection: (animes: AnimeListItem[] | AnimeListItem, collectionName: string) => {},
@@ -29,7 +29,10 @@ export const AnimeContext = createContext<AnimeContextValues>({
 });
 
 export default function AnimeProvider({ children }: PropsWithChildren) {
-  const [collections, setCollections] = usePersistentState({ defaultValue: {}, localStorageKey: LS_COLLECTIONS_KEY });
+  const [collections, setCollections, loading] = usePersistentState({
+    defaultValue: {},
+    localStorageKey: LS_COLLECTIONS_KEY,
+  });
 
   function getAnime(animeId: number): AnimeCollectionRef | undefined {
     const collectionNames = Object.keys(collections);
@@ -44,11 +47,11 @@ export default function AnimeProvider({ children }: PropsWithChildren) {
     return undefined;
   }
 
-  function createCollection(collectionName: string, values: AnimeListItem[] = []): void {
+  function createCollection(collectionName: string): void {
     if (hasSpecialCharacters(collectionName)) throw new Error(txtCollectionCannotContainSpecialChar);
     if (collectionName in collections) throw new Error(txtIsCollectionExist);
     const newCollections = deepCopy(collections);
-    newCollections[collectionName] = values;
+    newCollections[collectionName] = [];
     setCollections(newCollections);
   }
 
@@ -61,6 +64,8 @@ export default function AnimeProvider({ children }: PropsWithChildren) {
 
   function editCollectionName(collectionName: string, newCollectionName: string) {
     if (!(collectionName in collections)) throw new Error(txtIsCollectionNotExist);
+    if (hasSpecialCharacters(collectionName)) throw new Error(txtCollectionCannotContainSpecialChar);
+
     const newCollections = deepCopy(collections);
     const tempCollection = newCollections[collectionName];
     delete newCollections[collectionName];

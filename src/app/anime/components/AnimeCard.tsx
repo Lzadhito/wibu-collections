@@ -14,7 +14,7 @@ export default function AnimeCard({ anime, showCheckbox, checked, onClick }: Pro
   return (
     <StyledCard onClick={() => (showCheckbox ? onClick(anime) : {})} key={anime.id}>
       {showCheckbox && <StyledCheckbox disabled checked={checked} />}
-      <StyledCardMedia image={anime.coverImage.large} height="180" $showCheckbox={!!showCheckbox} />
+      <StyledCardMedia image={anime.coverImage.large} height="180" showCheckbox={!!showCheckbox} />
       <CardContent>
         <Typography align="center" fontWeight="bold">
           {anime.title.english || anime.title.native || ''}

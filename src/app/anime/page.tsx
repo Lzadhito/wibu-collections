@@ -1,7 +1,8 @@
 'use client';
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import { Pagination, useMediaQuery } from '@mui/material';
+import { AppBar, Container, IconButton, Toolbar, Typography, useMediaQuery } from '@mui/material';
 import Masonry from '@mui/lab/Masonry';
 
 import type { GetAnimeListQuery } from '../graphql/types';
@@ -9,15 +10,17 @@ import type { AnimeListItem } from '../types/anime';
 
 import GET_ANIME_LIST from '../graphql/getAnimeList';
 import AnimeCard from './components/AnimeCard';
-import AddToCollectionDialog from './components/AddToCollectionDialog';
-import { txtAddToCollection, txtCancel, txtManage } from './locales';
+import LazyAddToCollectionDialog from './components/AddToCollectionDialog/lazy';
+import { txtAddToCollection, txtCancel, txtManage, txtTitle } from './locales';
 import {
   StyledATCBtn,
   StyledATCBtnContainer,
+  StyledCollectionIcon,
   StyledHeader,
   StyledMain,
   StyledManageBtn,
   StyledPagination,
+  StyledTitleContainer,
 } from './styles';
 
 export default function Home() {
@@ -67,7 +70,19 @@ export default function Home() {
   const animeList = useMemo(() => data?.Page?.media, [data]);
   return (
     <>
-      <div>
+      <AppBar position="static">
+        <Toolbar>
+          <StyledTitleContainer>
+            <Typography fontWeight="bold">{txtTitle}</Typography>
+          </StyledTitleContainer>
+          <Link href="/anime/collections">
+            <IconButton>
+              <StyledCollectionIcon />
+            </IconButton>
+          </Link>
+        </Toolbar>
+      </AppBar>
+      <Container>
         <StyledMain>
           <StyledHeader>
             <StyledManageBtn variant={isManage ? 'outlined' : 'contained'} onClick={handleClickManage}>
@@ -109,9 +124,9 @@ export default function Home() {
             }`}</StyledATCBtn>
           </StyledATCBtnContainer>
         )}
-      </div>
+      </Container>
       {showATCModal && (
-        <AddToCollectionDialog
+        <LazyAddToCollectionDialog
           onSubmit={handleSubmitAtcModal}
           onClose={handleCloseATCModal}
           selectedManageData={selectedManageData}

@@ -8,14 +8,14 @@ export const StyledCard = styled(Card)`
 
 interface StyledCardMediaProps extends CardMediaProps {
   height: string;
-  $showCheckbox: boolean;
+  showCheckbox: boolean;
 }
 export const StyledCardMedia = styled(CardMedia)<StyledCardMediaProps>`
   object-fit: cover;
   aspect-ratio: 1/1;
 
   ${(props) =>
-    props.$showCheckbox &&
+    props.showCheckbox &&
     `
     position: relative;
     overflow: hidden;
