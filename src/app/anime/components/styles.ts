@@ -4,6 +4,7 @@ import type { CardMediaProps } from '@mui/material';
 
 export const StyledCard = styled(Card)`
   position: relative;
+  cursor: pointer;
 `;
 
 export const StyledDeleteBtn = styled(Button)`

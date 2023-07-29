@@ -1,6 +1,6 @@
 'use client';
 
-import type { AnimeCollectionRef, AnimeListItem } from '@/app/types/anime';
+import type { AnimeListItem } from '@/app/types/anime';
 
 import deepCopy from '@/helpers/deepCopy';
 import { LS_COLLECTIONS_KEY } from './constants';
@@ -11,7 +11,7 @@ import { PropsWithChildren, createContext } from 'react';
 
 interface AnimeContextValues {
   collections: Record<string, AnimeListItem[]>;
-  getAnime: (animeId: number) => AnimeCollectionRef | undefined;
+  getCollectionsById: (animeId: number) => string[];
   createCollection: (collectionName: string) => void;
   removeCollection: (collectionName: string) => void;
   editCollectionName: (collectionName: string, newCollectionName: string) => void;
@@ -20,7 +20,7 @@ interface AnimeContextValues {
 }
 export const AnimeContext = createContext<AnimeContextValues>({
   collections: {},
-  getAnime: (animeId: number) => undefined,
+  getCollectionsById: (animeId: number) => [],
   createCollection: (collectionName: string) => {},
   removeCollection: (collectionName: string) => {},
   editCollectionName: (collectionName: string, newCollectionName: string) => {},
@@ -29,22 +29,22 @@ export const AnimeContext = createContext<AnimeContextValues>({
 });
 
 export default function AnimeProvider({ children }: PropsWithChildren) {
-  const [collections, setCollections, loading] = usePersistentState({
+  const [collections, setCollections] = usePersistentState({
     defaultValue: {},
     localStorageKey: LS_COLLECTIONS_KEY,
   });
 
-  function getAnime(animeId: number): AnimeCollectionRef | undefined {
+  function getCollectionsById(animeId: number): string[] {
     const collectionNames = Object.keys(collections);
-    for (let i = 0; i < collectionNames.length; i++) {
-      const collectionName = collectionNames[i];
-      for (let j = 0; j < collections[collectionName].length; j++) {
-        const anime = collections[collectionName][j];
-        if (anime.id === animeId) return { collectionName, data: anime };
-      }
-    }
+    const result: string[] = [];
 
-    return undefined;
+    collectionNames.forEach((collectionName: string) => {
+      if (collections[collectionName].some((anime: AnimeListItem) => anime.id === animeId)) {
+        result.push(collectionName);
+      }
+    });
+
+    return result;
   }
 
   function createCollection(collectionName: string): void {
@@ -84,7 +84,6 @@ export default function AnimeProvider({ children }: PropsWithChildren) {
   function removeFromCollection(animeId: number, collectionName: string): void {
     if (!(collectionName in collections)) throw new Error(txtIsCollectionNotExist);
     const newCollections = deepCopy(collections);
-    console.log(newCollections);
     newCollections[collectionName] = newCollections[collectionName].filter(
       (anime: AnimeListItem) => anime.id !== animeId
     );
@@ -95,7 +94,7 @@ export default function AnimeProvider({ children }: PropsWithChildren) {
     <AnimeContext.Provider
       value={{
         collections,
-        getAnime,
+        getCollectionsById,
         createCollection,
         removeCollection,
         editCollectionName,

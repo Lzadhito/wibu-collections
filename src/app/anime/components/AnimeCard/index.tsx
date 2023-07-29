@@ -29,7 +29,7 @@ export default function AnimeCard({
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   function handleClick() {
-    if (onClick) onClick(anime);
+    if (showCheckbox && onClick) onClick(anime);
     else router.push(`/anime/${anime.id}`);
   }
 
@@ -45,7 +45,7 @@ export default function AnimeCard({
         <StyledCardMedia image={anime.coverImage.large} showCheckbox={!!showCheckbox} />
         <CardContent>
           <Typography align="center" fontWeight="bold">
-            {anime.title.english || anime.title.native || ''}
+            {anime.title?.english || anime.title?.native || ''}
           </Typography>
         </CardContent>
         {showDeleteBtn && (

@@ -9,15 +9,15 @@ import { txtSelectCollection } from '../locales';
 
 interface Props {
   onClose: () => void;
-  selectedManageData: AnimeListItem[];
+  selectedAnime: AnimeListItem[] | AnimeListItem;
   onSubmit: () => void;
 }
 
-export default function AddToCollectionDialog({ onClose, onSubmit, selectedManageData }: Props) {
+export default function AddToCollectionDialog({ onClose, onSubmit, selectedAnime }: Props) {
   const { addToCollection } = useContext(AnimeContext);
 
   function handleClickCollection(collectionName: string) {
-    addToCollection(selectedManageData, collectionName);
+    addToCollection(selectedAnime, collectionName);
     onSubmit();
   }
 

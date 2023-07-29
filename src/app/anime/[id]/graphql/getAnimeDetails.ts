@@ -6,8 +6,12 @@ export default gql`
       id
       title {
         english
+        native
       }
-      bannerImage
+      coverImage {
+        extraLarge
+        large
+      }
       description
       episodes
       genres

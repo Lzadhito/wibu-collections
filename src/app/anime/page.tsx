@@ -133,7 +133,7 @@ export default function Home() {
         <LazyAddToCollectionDialog
           onSubmit={handleSubmitAtcModal}
           onClose={handleCloseATCModal}
-          selectedManageData={selectedManageData}
+          selectedAnime={selectedManageData}
         />
       )}
     </>

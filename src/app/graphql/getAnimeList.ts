@@ -15,6 +15,7 @@ export default gql`
           native
         }
         coverImage {
+          extraLarge
           large
         }
       }

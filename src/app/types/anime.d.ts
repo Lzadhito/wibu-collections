@@ -6,6 +6,7 @@ export interface AnimeDetails {
   };
   coverImage: {
     large: string;
+    extraLarge: string;
   };
   description: string;
   episodes: number;
@@ -14,8 +15,3 @@ export interface AnimeDetails {
 }
 
 export type AnimeListItem = Omit<AnimeDetails, 'description' | 'episodes' | 'genres' | 'averageScore'>;
-
-export interface AnimeCollectionRef {
-  collectionName: string;
-  data: AnimeListItem;
-}
