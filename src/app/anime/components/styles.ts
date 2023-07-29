@@ -1,9 +1,14 @@
 import styled from '@emotion/styled';
-import { Card, CardMedia, Checkbox } from '@mui/material';
+import { Button, Card, CardMedia, Checkbox } from '@mui/material';
 import type { CardMediaProps } from '@mui/material';
 
 export const StyledCard = styled(Card)`
   position: relative;
+`;
+
+export const StyledDeleteBtn = styled(Button)`
+  text-transform: capitalize;
+  font-weight: bold;
 `;
 
 interface StyledCardMediaProps extends CardMediaProps {

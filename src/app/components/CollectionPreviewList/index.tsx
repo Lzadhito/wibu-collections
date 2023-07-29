@@ -55,6 +55,7 @@ export default function CollectionPreviewList({ onClickCollection, showActions =
     setSelectedDeleteCollectionName(collectionName);
   }
 
+  console.log(collections);
   return (
     <>
       <List>
@@ -91,7 +92,7 @@ export default function CollectionPreviewList({ onClickCollection, showActions =
                 >
                   <ListItemButton onClick={() => onClickCollection(collectionName)}>
                     <ListItemAvatar>
-                      {collections[collectionName].length > 1 ? (
+                      {collections[collectionName].length ? (
                         <Avatar src={collections[collectionName][0]?.coverImage?.large} />
                       ) : (
                         <Avatar>
@@ -126,7 +127,7 @@ export default function CollectionPreviewList({ onClickCollection, showActions =
       {!!selectedDeleteCollectionName && (
         <LazyDeleteConfirmationModal
           collectionName={selectedDeleteCollectionName}
-          handleClose={() => setSelectedDeleteCollectionName('')}
+          onClose={() => setSelectedDeleteCollectionName('')}
         />
       )}
     </>

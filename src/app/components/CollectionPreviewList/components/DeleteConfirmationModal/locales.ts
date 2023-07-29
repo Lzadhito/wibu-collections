@@ -1,5 +1,3 @@
-export const txtOk = 'Confirm';
-export const txtCancel = 'Cancel';
 export function generateTxtConfirmationTitle(collectionName: string) {
   return `Remove ${collectionName}?`;
 }

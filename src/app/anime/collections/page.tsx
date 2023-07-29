@@ -4,9 +4,8 @@ import CollectionPreviewList from '@/app/components/CollectionPreviewList';
 import { AppBar, Container, IconButton, Toolbar, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
-import { StyledTitleContainer } from '../styles';
+import { StyledArrowBack, StyledTitleContainer } from '../styles';
 import { txtCollections } from './locales';
-import { StyledArrowBack } from './styles';
 
 export default function AnimeCollections() {
   const router = useRouter();

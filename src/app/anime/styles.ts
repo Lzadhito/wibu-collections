@@ -1,7 +1,11 @@
 import { Button, Pagination } from '@mui/material';
 import styled from '@emotion/styled';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 
+export const StyledArrowBack = styled(ArrowBackRoundedIcon)`
+  color: white;
+`;
 export const StyledCollectionIcon = styled(CollectionsBookmarkIcon)`
   color: white;
 `;
