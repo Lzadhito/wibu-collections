@@ -64,7 +64,7 @@ export default function AnimeProvider({ children }: PropsWithChildren) {
 
   function editCollectionName(collectionName: string, newCollectionName: string) {
     if (!(collectionName in collections)) throw new Error(txtIsCollectionNotExist);
-    if (hasSpecialCharacters(collectionName)) throw new Error(txtCollectionCannotContainSpecialChar);
+    if (hasSpecialCharacters(newCollectionName)) throw new Error(txtCollectionCannotContainSpecialChar);
 
     const newCollections = deepCopy(collections);
     const tempCollection = newCollections[collectionName];

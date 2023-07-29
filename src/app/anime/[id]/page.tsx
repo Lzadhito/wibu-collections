@@ -17,6 +17,7 @@ import { StyledContainer, StyledRatingContainer, StyledUl } from './styles';
 import { txtCategory, txtCollections, txtRating } from './locales';
 import { txtAddToCollection } from '../locales';
 import LazyAddToCollectionDialog from '../components/AddToCollectionDialog/lazy';
+import LazyRenameCollectionNameDialog from '../components/RenameCollectionNameDialog/lazy';
 
 interface PageProps {
   params: {
@@ -26,9 +27,10 @@ interface PageProps {
 
 export default function AnimeDetailsPage({ params }: PageProps) {
   const router = useRouter();
-  const { data } = useSuspenseQuery<{ Media: AnimeDetails }>(GET_ANIME_DETAILS, { variables: { id: params.id } });
   const { isDesktop } = useScreenSize();
   const { getCollectionsById, removeFromCollection } = useContext(AnimeContext);
+  const { data } = useSuspenseQuery<{ Media: AnimeDetails }>(GET_ANIME_DETAILS, { variables: { id: params.id } });
+
   const [showATCModal, setShowATCModal] = useState(false);
 
   function handleClickRemoveTag(collectionName: string) {

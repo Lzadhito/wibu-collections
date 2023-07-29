@@ -9,7 +9,7 @@ interface Props {
   placeholder?: string;
   defaultValue?: string;
   onSubmit: (value: string) => void;
-  onCancel: () => void;
+  onCancel?: () => void;
 }
 export default function SubmitInput({ defaultValue, submitTxt, onSubmit, placeholder, onCancel }: Props) {
   const [value, setValue] = useState(defaultValue || '');
@@ -45,9 +45,11 @@ export default function SubmitInput({ defaultValue, submitTxt, onSubmit, placeho
                 </Button>
               </InputAdornment>
 
-              <IconButton onClick={onCancel}>
-                <ClearRounded fontSize="small" />
-              </IconButton>
+              {onCancel && (
+                <IconButton onClick={onCancel}>
+                  <ClearRounded fontSize="small" />
+                </IconButton>
+              )}
             </StyledActionWrapper>
           ),
         }}

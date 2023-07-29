@@ -21,6 +21,7 @@ import LazyDeleteConfirmationModal from './components/DeleteConfirmationModal/la
 import LazySubmitInput from './components/SubmitInput/lazy';
 import { txtCreate, txtCreateNewCollection, txtEdit, txtEditCollectionName, txtNewCollection } from '../locales';
 import { StyledActionContainer } from '../styles';
+import LazyRenameCollectionNameDialog from '@/app/anime/components/RenameCollectionNameDialog/lazy';
 
 interface Props {
   onClickCollection: (collectionName: string) => void;
@@ -40,13 +41,6 @@ export default function CollectionPreviewList({ onClickCollection, showActions =
       setIsCreateNewCollection(false);
     }
   }
-  function handleEditCollectionName(newCollectionName: string) {
-    if (newCollectionName) {
-      editCollectionName(selectedEditCollectionName, newCollectionName);
-      setSelectedEditCollectionName('');
-    }
-  }
-
   function handleClickEditIcon(collectionName: string) {
     setSelectedEditCollectionName(collectionName);
   }
@@ -55,56 +49,41 @@ export default function CollectionPreviewList({ onClickCollection, showActions =
     setSelectedDeleteCollectionName(collectionName);
   }
 
-  console.log(collections);
   return (
     <>
       <List>
         {Object.keys(collections)
           .sort()
           .map((collectionName) => (
-            <>
-              {selectedEditCollectionName === collectionName ? (
-                <ListItem>
-                  <LazySubmitInput
-                    onCancel={() => setSelectedEditCollectionName('')}
-                    defaultValue={selectedEditCollectionName}
-                    onSubmit={handleEditCollectionName}
-                    submitTxt={txtEdit}
-                    placeholder={txtEditCollectionName}
-                  />
-                </ListItem>
-              ) : (
-                <ListItem
-                  secondaryAction={
-                    showActions ? (
-                      <StyledActionContainer>
-                        <IconButton onClick={() => handleClickEditIcon(collectionName)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton onClick={() => handleClickDeleteIcon(collectionName)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </StyledActionContainer>
-                    ) : null
-                  }
-                  disablePadding
-                  key={collectionName}
-                >
-                  <ListItemButton onClick={() => onClickCollection(collectionName)}>
-                    <ListItemAvatar>
-                      {collections[collectionName].length ? (
-                        <Avatar src={collections[collectionName][0]?.coverImage?.large} />
-                      ) : (
-                        <Avatar>
-                          <PhotoIcon />
-                        </Avatar>
-                      )}
-                    </ListItemAvatar>
-                    <ListItemText primary={collectionName} />
-                  </ListItemButton>
-                </ListItem>
-              )}
-            </>
+            <ListItem
+              secondaryAction={
+                showActions ? (
+                  <StyledActionContainer>
+                    <IconButton onClick={() => handleClickEditIcon(collectionName)}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleClickDeleteIcon(collectionName)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </StyledActionContainer>
+                ) : null
+              }
+              disablePadding
+              key={collectionName}
+            >
+              <ListItemButton onClick={() => onClickCollection(collectionName)}>
+                <ListItemAvatar>
+                  {collections[collectionName].length ? (
+                    <Avatar src={collections[collectionName][0]?.coverImage?.large} />
+                  ) : (
+                    <Avatar>
+                      <PhotoIcon />
+                    </Avatar>
+                  )}
+                </ListItemAvatar>
+                <ListItemText primary={collectionName} />
+              </ListItemButton>
+            </ListItem>
           ))}
         <ListItem data-testid="createNewCollectionRow">
           {isCreateNewCollection ? (
@@ -128,6 +107,12 @@ export default function CollectionPreviewList({ onClickCollection, showActions =
         <LazyDeleteConfirmationModal
           collectionName={selectedDeleteCollectionName}
           onClose={() => setSelectedDeleteCollectionName('')}
+        />
+      )}
+      {!!selectedEditCollectionName && (
+        <LazyRenameCollectionNameDialog
+          collectionName={selectedEditCollectionName}
+          onClose={() => setSelectedEditCollectionName('')}
         />
       )}
     </>
