@@ -11,8 +11,6 @@ export const StyledCollectionIcon = styled(CollectionsBookmarkIcon)`
 `;
 
 export const StyledMain = styled.main`
-  display: grid;
-  justify-content: center;
   margin-bottom: 80px;
 `;
 

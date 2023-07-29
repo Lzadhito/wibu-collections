@@ -1,13 +1,12 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import type { MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { CardActions, CardContent, Typography } from '@mui/material';
 import type { AnimeListItem } from '@/app/types/anime';
 
+import LazyDeleteConfirmationDialog from './components/DeleteConfirmationDialog/lazy';
 import { StyledCard, StyledCardMedia, StyledCheckbox, StyledDeleteBtn } from '../styles';
 import { txtRemove } from '../locales';
-import LazyDeleteConfirmationDialog from './components/DeleteConfirmationDialog/lazy';
-import { AnimeContext } from '@/context/AnimeContext';
 
 interface Props {
   anime: AnimeListItem;
@@ -43,7 +42,7 @@ export default function AnimeCard({
     <>
       <StyledCard onClick={handleClick} key={anime.id}>
         {showCheckbox && <StyledCheckbox disabled checked={checked} />}
-        <StyledCardMedia image={anime.coverImage.large} height="180" showCheckbox={!!showCheckbox} />
+        <StyledCardMedia image={anime.coverImage.large} showCheckbox={!!showCheckbox} />
         <CardContent>
           <Typography align="center" fontWeight="bold">
             {anime.title.english || anime.title.native || ''}

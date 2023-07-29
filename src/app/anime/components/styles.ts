@@ -12,7 +12,6 @@ export const StyledDeleteBtn = styled(Button)`
 `;
 
 interface StyledCardMediaProps extends CardMediaProps {
-  height: string;
   showCheckbox: boolean;
 }
 export const StyledCardMedia = styled(CardMedia)<StyledCardMediaProps>`

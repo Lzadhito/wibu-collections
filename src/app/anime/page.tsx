@@ -2,8 +2,9 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import { AppBar, Container, IconButton, Toolbar, Typography, useMediaQuery } from '@mui/material';
+import { AppBar, Container, IconButton, Toolbar, Typography } from '@mui/material';
 import Masonry from '@mui/lab/Masonry';
+import useScreenSize from '@/hooks/useScreenSize';
 
 import type { GetAnimeListQuery } from '../graphql/types';
 import type { AnimeListItem } from '../types/anime';
@@ -24,6 +25,8 @@ import {
 } from './styles';
 
 export default function Home() {
+  const { isMobile, isTablet } = useScreenSize();
+
   const [page, setPage] = useState(1);
   const [isManage, setIsManage] = useState(false);
   const [selectedManageData, setSelectedManageData] = useState<AnimeListItem[]>([]);
@@ -66,7 +69,12 @@ export default function Home() {
     resetMangedData();
   }
 
-  const isMobile = !useMediaQuery('(min-width:1024px)');
+  const masonryColumns = useMemo(() => {
+    if (isMobile) return 2;
+    if (isTablet) return 4;
+    return 5;
+  }, [isMobile, isTablet]);
+
   const animeList = useMemo(() => data?.Page?.media, [data]);
   return (
     <>
@@ -89,21 +97,17 @@ export default function Home() {
               {isManage ? txtCancel : txtManage}
             </StyledManageBtn>
           </StyledHeader>
-          {isMobile ? (
-            <Masonry columns={2} spacing={3}>
-              {animeList.map((anime) => (
-                <AnimeCard
-                  key={anime.id}
-                  anime={anime}
-                  showCheckbox={isManage}
-                  checked={selectedManageData.some((item) => item.id === anime.id)}
-                  onClick={handleClickAnimeCard}
-                />
-              ))}
-            </Masonry>
-          ) : (
-            <div>show desktop version</div>
-          )}
+          <Masonry columns={masonryColumns} spacing={3}>
+            {animeList.map((anime) => (
+              <AnimeCard
+                key={anime.id}
+                anime={anime}
+                showCheckbox={isManage}
+                checked={selectedManageData.some((item) => item.id === anime.id)}
+                onClick={handleClickAnimeCard}
+              />
+            ))}
+          </Masonry>
           <StyledPagination
             onChange={handleChangePagination}
             count={data?.Page?.pageInfo?.lastPage}
