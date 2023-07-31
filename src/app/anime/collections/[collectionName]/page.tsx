@@ -1,16 +1,16 @@
 'use client';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Masonry } from '@mui/lab';
 import { useRouter } from 'next/navigation';
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 
-import useScreenSize from '@/hooks/useScreenSize';
 import AnimeCard from '@/app/anime/components/AnimeCard';
 import { StyledArrowBack, StyledTitleContainer } from '@/app/anime/styles';
 import { AnimeContext } from '@/context/AnimeContext';
 
-import { StyledContainer, StyledEditIcon } from './styles';
 import LazyRenameCollectionNameDialog from '../../components/RenameCollectionNameDialog/lazy';
+import useMasonryColumns from '../../hooks/useMasonryColumns';
+import { StyledContainer, StyledEditIcon } from './styles';
 
 interface PageProps {
   params: { collectionName: string };
@@ -20,19 +20,13 @@ export default function CollectionDetails({ params }: PageProps) {
   const collectionName = decodeURI(params.collectionName);
   const router = useRouter();
   const { collections } = useContext(AnimeContext);
-  const { isMobile, isTablet } = useScreenSize();
+  const masonryColumns = useMasonryColumns();
 
   const [showRenameDialog, setShowRenameDialog] = useState(false);
 
   function handleSubmitRename(newCollectionName: string) {
     router.replace(`/anime/collections/${newCollectionName}`);
   }
-
-  const masonryColumns = useMemo(() => {
-    if (isMobile) return 2;
-    if (isTablet) return 4;
-    return 5;
-  }, [isMobile, isTablet]);
 
   const animeList = collections[collectionName];
   return (

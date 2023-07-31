@@ -3,10 +3,12 @@ import type { MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { CardActions, CardContent, Typography } from '@mui/material';
 import type { AnimeListItem } from '@/app/types/anime';
+import Image from 'next/image';
 
+import useScreenSize from '@/hooks/useScreenSize';
 import LazyDeleteConfirmationDialog from './components/DeleteConfirmationDialog/lazy';
-import { StyledCard, StyledCardMedia, StyledCheckbox, StyledDeleteBtn } from '../styles';
 import { txtRemove } from '../locales';
+import { StyledCardMedia, StyledCheckbox, StyledDeleteBtn, StyledCard, StyledCardContent } from './styles';
 
 interface Props {
   anime: AnimeListItem;
@@ -27,6 +29,7 @@ export default function AnimeCard({
 }: Props) {
   const router = useRouter();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const { isMobile } = useScreenSize();
 
   function handleClick() {
     if (showCheckbox && onClick) onClick(anime);
@@ -38,16 +41,20 @@ export default function AnimeCard({
     setShowDeleteConfirmation(true);
   }
 
+  const imageSize = isMobile ? 180 : 200;
+
   return (
     <>
       <StyledCard onClick={handleClick} key={anime.id}>
         {showCheckbox && <StyledCheckbox disabled checked={checked} />}
-        <StyledCardMedia image={anime.coverImage.large} showCheckbox={!!showCheckbox} />
-        <CardContent>
-          <Typography align="center" fontWeight="bold">
+        <StyledCardMedia showCheckbox={!!showCheckbox}>
+          <Image priority src={anime.coverImage.large} alt={anime.title.native} width={imageSize} height={imageSize} />
+        </StyledCardMedia>
+        <StyledCardContent>
+          <Typography fontWeight="bold" variant={isMobile ? 'caption' : 'body1'}>
             {anime.title?.english || anime.title?.native || ''}
           </Typography>
-        </CardContent>
+        </StyledCardContent>
         {showDeleteBtn && (
           <CardActions>
             <StyledDeleteBtn variant="contained" fullWidth onClick={handleClickRemove}>

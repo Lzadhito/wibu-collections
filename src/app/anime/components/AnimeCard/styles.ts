@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
-import { Button, Card, CardMedia, Checkbox } from '@mui/material';
+import { Card, CardContent, Button, CardMedia, Checkbox } from '@mui/material';
 import type { CardMediaProps } from '@mui/material';
 
 export const StyledCard = styled(Card)`
+  max-width: 200px !important;
   position: relative;
   cursor: pointer;
+`;
+
+export const StyledCardContent = styled(CardContent)`
+  text-align: center;
 `;
 
 export const StyledDeleteBtn = styled(Button)`

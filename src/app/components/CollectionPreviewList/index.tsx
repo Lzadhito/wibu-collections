@@ -22,6 +22,7 @@ import LazySubmitInput from './components/SubmitInput/lazy';
 import { txtCreate, txtCreateNewCollection, txtEdit, txtEditCollectionName, txtNewCollection } from '../locales';
 import { StyledActionContainer } from '../styles';
 import LazyRenameCollectionNameDialog from '@/app/anime/components/RenameCollectionNameDialog/lazy';
+import Image from 'next/image';
 
 interface Props {
   onClickCollection: (collectionName: string) => void;
@@ -73,13 +74,19 @@ export default function CollectionPreviewList({ onClickCollection, showActions =
             >
               <ListItemButton onClick={() => onClickCollection(collectionName)}>
                 <ListItemAvatar>
-                  {collections[collectionName].length ? (
-                    <Avatar src={collections[collectionName][0]?.coverImage?.large} />
-                  ) : (
-                    <Avatar>
+                  <Avatar>
+                    {collections[collectionName].length ? (
+                      <Image
+                        alt={collectionName}
+                        priority
+                        width={40}
+                        height={40}
+                        src={collections[collectionName][0]?.coverImage?.large}
+                      />
+                    ) : (
                       <PhotoIcon />
-                    </Avatar>
-                  )}
+                    )}
+                  </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={collectionName} />
               </ListItemButton>

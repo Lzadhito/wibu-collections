@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { AppBar, Container, IconButton, Toolbar, Typography } from '@mui/material';
 import Masonry from '@mui/lab/Masonry';
-import useScreenSize from '@/hooks/useScreenSize';
 
 import type { GetAnimeListQuery } from '../graphql/types';
 import type { AnimeListItem } from '../types/anime';
 
 import GET_ANIME_LIST from '../graphql/getAnimeList';
+import useMasonryColumns from './hooks/useMasonryColumns';
 import AnimeCard from './components/AnimeCard';
 import LazyAddToCollectionDialog from './components/AddToCollectionDialog/lazy';
 import { txtAddToCollection, txtCancel, txtManage, txtTitle } from './locales';
@@ -25,12 +25,11 @@ import {
 } from './styles';
 
 export default function Home() {
-  const { isMobile, isTablet } = useScreenSize();
-
   const [page, setPage] = useState(1);
   const [isManage, setIsManage] = useState(false);
   const [selectedManageData, setSelectedManageData] = useState<AnimeListItem[]>([]);
   const [showATCModal, setShowATCModal] = useState(false);
+  const masonryColumns = useMasonryColumns();
 
   const { data } = useSuspenseQuery<GetAnimeListQuery>(GET_ANIME_LIST, { variables: { page } });
 
@@ -68,12 +67,6 @@ export default function Home() {
     handleCloseATCModal();
     resetMangedData();
   }
-
-  const masonryColumns = useMemo(() => {
-    if (isMobile) return 2;
-    if (isTablet) return 4;
-    return 5;
-  }, [isMobile, isTablet]);
 
   const animeList = useMemo(() => data?.Page?.media, [data]);
   return (
