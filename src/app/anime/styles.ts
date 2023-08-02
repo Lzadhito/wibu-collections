@@ -1,4 +1,4 @@
-import { Button, Pagination } from '@mui/material';
+import { Button, CardContent, Pagination } from '@mui/material';
 import styled from '@emotion/styled';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
@@ -68,4 +68,8 @@ export const StyledPagination = styled(Pagination)`
   width: 100%;
   display: flex;
   justify-content: center;
+`;
+
+export const StyledCardContentLoading = styled(CardContent)`
+  padding-bottom: 50px;
 `;
