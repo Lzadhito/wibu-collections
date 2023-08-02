@@ -1,15 +1,13 @@
 'use client';
 import { useContext, useState } from 'react';
-import { Masonry } from '@mui/lab';
 import { useRouter } from 'next/navigation';
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 
 import AnimeCard from '@/app/anime/components/AnimeCard';
-import { StyledArrowBack, StyledTitleContainer } from '@/app/anime/styles';
+import { StyledArrowBack, StyledListContainer, StyledTitleContainer } from '@/app/anime/styles';
 import { AnimeContext } from '@/context/AnimeContext';
 
 import LazyRenameCollectionNameDialog from '../../components/RenameCollectionNameDialog/lazy';
-import useMasonryColumns from '../../hooks/useMasonryColumns';
 import { StyledContainer, StyledEditIcon } from './styles';
 
 interface PageProps {
@@ -20,7 +18,6 @@ export default function CollectionDetails({ params }: PageProps) {
   const collectionName = decodeURI(params.collectionName);
   const router = useRouter();
   const { collections } = useContext(AnimeContext);
-  const masonryColumns = useMasonryColumns();
 
   const [showRenameDialog, setShowRenameDialog] = useState(false);
 
@@ -46,11 +43,11 @@ export default function CollectionDetails({ params }: PageProps) {
       </AppBar>
 
       <StyledContainer>
-        <Masonry columns={masonryColumns} spacing={3}>
+        <StyledListContainer>
           {animeList?.map((anime) => (
             <AnimeCard showDeleteBtn key={anime.id} anime={anime} collectionName={collectionName} />
           ))}
-        </Masonry>
+        </StyledListContainer>
       </StyledContainer>
       {showRenameDialog && (
         <LazyRenameCollectionNameDialog

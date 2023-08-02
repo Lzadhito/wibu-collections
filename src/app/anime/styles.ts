@@ -3,6 +3,22 @@ import styled from '@emotion/styled';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 
+export const StyledListContainer = styled.div`
+  display: grid;
+  gap: 1rem;
+  margin: 3rem 0;
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  @media (min-width: 768px) and (max-width: 1199px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 320px) and (max-width: 767px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
 export const StyledArrowBack = styled(ArrowBackRoundedIcon)`
   color: white;
 `;

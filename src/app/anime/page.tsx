@@ -3,17 +3,16 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { AppBar, Container, IconButton, Toolbar, Typography } from '@mui/material';
-import Masonry from '@mui/lab/Masonry';
 
 import type { GetAnimeListQuery } from '../graphql/types';
 import type { AnimeListItem } from '../types/anime';
 
 import GET_ANIME_LIST from '../graphql/getAnimeList';
-import useMasonryColumns from './hooks/useMasonryColumns';
 import AnimeCard from './components/AnimeCard';
 import LazyAddToCollectionDialog from './components/AddToCollectionDialog/lazy';
 import { txtAddToCollection, txtCancel, txtManage, txtTitle } from './locales';
 import {
+  StyledListContainer,
   StyledATCBtn,
   StyledATCBtnContainer,
   StyledCollectionIcon,
@@ -29,7 +28,6 @@ export default function Home() {
   const [isManage, setIsManage] = useState(false);
   const [selectedManageData, setSelectedManageData] = useState<AnimeListItem[]>([]);
   const [showATCModal, setShowATCModal] = useState(false);
-  const masonryColumns = useMasonryColumns();
 
   const { data } = useSuspenseQuery<GetAnimeListQuery>(GET_ANIME_LIST, { variables: { page } });
 
@@ -90,7 +88,7 @@ export default function Home() {
               {isManage ? txtCancel : txtManage}
             </StyledManageBtn>
           </StyledHeader>
-          <Masonry columns={masonryColumns} spacing={3}>
+          <StyledListContainer>
             {animeList.map((anime) => (
               <AnimeCard
                 key={anime.id}
@@ -100,7 +98,7 @@ export default function Home() {
                 onClick={handleClickAnimeCard}
               />
             ))}
-          </Masonry>
+          </StyledListContainer>
           <StyledPagination
             onChange={handleChangePagination}
             count={data?.Page?.pageInfo?.lastPage}

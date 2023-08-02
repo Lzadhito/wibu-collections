@@ -12,6 +12,7 @@ const nextConfig = {
       {
         source: '/',
         destination: '/anime',
+        permanent: false,
       },
     ];
   },
