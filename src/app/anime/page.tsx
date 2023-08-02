@@ -29,7 +29,7 @@ export default function Home() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const page = searchParams.get('page') || 0;
+  const page = searchParams.get('page') || 1;
   const [isManage, setIsManage] = useState(false);
   const [selectedManageData, setSelectedManageData] = useState<AnimeListItem[]>([]);
   const [showATCModal, setShowATCModal] = useState(false);
