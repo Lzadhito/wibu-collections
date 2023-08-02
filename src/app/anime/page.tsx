@@ -1,6 +1,7 @@
 'use client';
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { AppBar, Container, IconButton, Toolbar, Typography } from '@mui/material';
 
@@ -24,7 +25,11 @@ import {
 } from './styles';
 
 export default function Home() {
-  const [page, setPage] = useState(1);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const page = searchParams.get('page') || 0;
   const [isManage, setIsManage] = useState(false);
   const [selectedManageData, setSelectedManageData] = useState<AnimeListItem[]>([]);
   const [showATCModal, setShowATCModal] = useState(false);
@@ -40,7 +45,7 @@ export default function Home() {
   }
 
   function handleChangePagination(_: unknown, page: number) {
-    setPage(page);
+    router.push(pathname + '?' + `page=${page}`);
   }
 
   function resetMangedData() {
