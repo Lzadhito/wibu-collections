@@ -36,7 +36,7 @@ export default function CollectionDetails({ params }: PageProps) {
           <StyledTitleContainer>
             <Typography fontWeight="bold">{collectionName}</Typography>
           </StyledTitleContainer>
-          <IconButton onClick={() => setShowRenameDialog(true)}>
+          <IconButton onClick={() => setShowRenameDialog(true)} aria-label="edit">
             <StyledEditIcon fontSize="small" />
           </IconButton>
         </Toolbar>

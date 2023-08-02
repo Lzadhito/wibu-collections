@@ -46,7 +46,7 @@ export default function SubmitInput({ defaultValue, submitTxt, onSubmit, placeho
               </InputAdornment>
 
               {onCancel && (
-                <IconButton onClick={onCancel}>
+                <IconButton onClick={onCancel} aria-label="cancel">
                   <ClearRounded fontSize="small" />
                 </IconButton>
               )}

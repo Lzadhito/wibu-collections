@@ -60,10 +60,10 @@ export default function CollectionPreviewList({ onClickCollection, showActions =
               secondaryAction={
                 showActions ? (
                   <StyledActionContainer>
-                    <IconButton onClick={() => handleClickEditIcon(collectionName)}>
+                    <IconButton aria-label="edit" onClick={() => handleClickEditIcon(collectionName)}>
                       <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => handleClickDeleteIcon(collectionName)}>
+                    <IconButton aria-label="delete" onClick={() => handleClickDeleteIcon(collectionName)}>
                       <DeleteIcon />
                     </IconButton>
                   </StyledActionContainer>

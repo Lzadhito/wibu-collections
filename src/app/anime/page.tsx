@@ -74,8 +74,8 @@ export default function Home() {
           <StyledTitleContainer>
             <Typography fontWeight="bold">{txtTitle}</Typography>
           </StyledTitleContainer>
-          <Link href="/anime/collections">
-            <IconButton>
+          <Link href="/anime/collections" aria-label="navigate-collections">
+            <IconButton aria-label="collection-icon" type="button">
               <StyledCollectionIcon />
             </IconButton>
           </Link>
