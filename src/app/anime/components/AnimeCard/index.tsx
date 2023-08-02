@@ -9,6 +9,7 @@ import useScreenSize from '@/hooks/useScreenSize';
 import LazyDeleteConfirmationDialog from './components/DeleteConfirmationDialog/lazy';
 import { txtRemove } from '../locales';
 import { StyledCardMedia, StyledCheckbox, StyledDeleteBtn, StyledCard, StyledCardContent } from './styles';
+import { useAmp } from 'next/amp';
 
 interface Props {
   anime: AnimeListItem;
@@ -27,6 +28,7 @@ export default function AnimeCard({
   showDeleteBtn = false,
   collectionName,
 }: Props) {
+  const isAmp = useAmp();
   const router = useRouter();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const { isMobile } = useScreenSize();
@@ -41,14 +43,22 @@ export default function AnimeCard({
     setShowDeleteConfirmation(true);
   }
 
-  const imageSize = isMobile ? 180 : 200;
-
   return (
     <>
       <StyledCard onClick={handleClick} key={anime.id}>
         {showCheckbox && <StyledCheckbox disabled checked={checked} />}
         <StyledCardMedia showCheckbox={!!showCheckbox}>
-          <Image priority src={anime.coverImage.large} alt={anime.title.native} width={imageSize} height={imageSize} />
+          {isAmp ? (
+            <amp-img
+              width="200"
+              height="200"
+              src={anime?.coverImage?.extraLarge}
+              alt={anime.title.native}
+              layout="fixed"
+            />
+          ) : (
+            <Image priority src={anime.coverImage.large} alt={anime.title.native} width={200} height={200} />
+          )}
         </StyledCardMedia>
         <StyledCardContent>
           <Typography fontWeight="bold" variant={isMobile ? 'caption' : 'body1'}>

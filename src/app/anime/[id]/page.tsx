@@ -2,6 +2,7 @@
 
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAmp } from 'next/amp';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { AppBar, Chip, IconButton, Toolbar, Typography } from '@mui/material';
@@ -17,9 +18,6 @@ import { StyledContainer, StyledRatingContainer, StyledUl } from './styles';
 import { txtCategory, txtCollections, txtRating } from './locales';
 import { txtAddToCollection } from '../locales';
 import LazyAddToCollectionDialog from '../components/AddToCollectionDialog/lazy';
-import Image from 'next/image';
-
-export const config = { amp: 'hybrid' };
 
 interface PageProps {
   params: {

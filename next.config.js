@@ -7,6 +7,10 @@ const withPWA = require('next-pwa')({
 
 
 const nextConfig = {
+  publicRuntimeConfig: {
+    // amp kinda not supported on app router 🙈
+    amp: true,
+  },
   async redirects() {
     return [
       {
