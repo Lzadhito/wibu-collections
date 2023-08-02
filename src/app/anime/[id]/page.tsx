@@ -1,8 +1,8 @@
 'use client';
 
 import { useContext, useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useAmp } from 'next/amp';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { AppBar, Chip, IconButton, Toolbar, Typography } from '@mui/material';
 
@@ -17,7 +17,9 @@ import { StyledContainer, StyledRatingContainer, StyledUl } from './styles';
 import { txtCategory, txtCollections, txtRating } from './locales';
 import { txtAddToCollection } from '../locales';
 import LazyAddToCollectionDialog from '../components/AddToCollectionDialog/lazy';
-import LazyRenameCollectionNameDialog from '../components/RenameCollectionNameDialog/lazy';
+import Image from 'next/image';
+
+export const config = { amp: 'hybrid' };
 
 interface PageProps {
   params: {
@@ -26,6 +28,7 @@ interface PageProps {
 }
 
 export default function AnimeDetailsPage({ params }: PageProps) {
+  const isAmp = useAmp();
   const router = useRouter();
   const { isDesktop } = useScreenSize();
   const { getCollectionsById, removeFromCollection } = useContext(AnimeContext);
@@ -52,8 +55,8 @@ export default function AnimeDetailsPage({ params }: PageProps) {
     <>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" aria-label="back">
-            <StyledArrowBack onClick={() => router.back()} />
+          <IconButton onClick={() => router.back()} edge="start" aria-label="back">
+            <StyledArrowBack />
           </IconButton>
           <StyledTitleContainer>
             <Typography fontWeight="bold">{title}</Typography>
@@ -61,7 +64,11 @@ export default function AnimeDetailsPage({ params }: PageProps) {
         </Toolbar>
       </AppBar>
       <StyledContainer isDesktop={isDesktop}>
-        <Image priority src={anime?.coverImage?.extraLarge} alt={title} width={375} height={563} />
+        {isAmp ? (
+          <amp-img width="375" height="563" src={anime?.coverImage?.extraLarge} alt={title} layout="responsive" />
+        ) : (
+          <Image priority src={anime?.coverImage?.extraLarge} alt={title} width={375} height={563} />
+        )}
         <Typography variant="h6" fontWeight="bold">
           {`${title} (${anime.episodes} episodes)`}
         </Typography>
