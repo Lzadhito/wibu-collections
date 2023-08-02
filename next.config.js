@@ -5,7 +5,6 @@ const nextConfig = {
       {
         source: '/',
         destination: '/anime',
-        permanent: true,
       },
     ];
   },
