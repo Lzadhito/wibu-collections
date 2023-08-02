@@ -11,6 +11,12 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Wibu Collections',
   description: 'Create collection of your favorite animes',
+  manifest: '/manifest.json',
+  icons: {
+    icon: '/icon.png',
+    apple: '/icon.png',
+  },
+  themeColor: 'white',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
